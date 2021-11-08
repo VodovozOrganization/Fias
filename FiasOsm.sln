@@ -10,6 +10,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fias", "Fias\Fias.csproj", "{2A8AC6D4-D250-422C-AE37-5009F7DF4957}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,6 +22,10 @@ Global
 		{FAA7E357-CFDE-4B18-A0FC-97250B3DBB57}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FAA7E357-CFDE-4B18-A0FC-97250B3DBB57}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FAA7E357-CFDE-4B18-A0FC-97250B3DBB57}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A8AC6D4-D250-422C-AE37-5009F7DF4957}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A8AC6D4-D250-422C-AE37-5009F7DF4957}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A8AC6D4-D250-422C-AE37-5009F7DF4957}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A8AC6D4-D250-422C-AE37-5009F7DF4957}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
