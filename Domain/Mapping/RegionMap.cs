@@ -1,7 +1,7 @@
-﻿using Domain.Entities;
+﻿using Fias.Domain.Entities;
 using FluentNHibernate.Mapping;
 
-namespace Domain.Mapping
+namespace Fias.Domain.Mapping
 {
 	public class RegionMap : ClassMap<Region>
 	{

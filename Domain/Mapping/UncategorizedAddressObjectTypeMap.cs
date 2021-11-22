@@ -3,11 +3,11 @@ using FluentNHibernate.Mapping;
 
 namespace Fias.Domain.Mapping
 {
-	public class CityTypeMap : ClassMap<CityType>
+	class UncategorizedAddressObjectTypeMap : ClassMap<UncategorizedAddressObjectType>
 	{
-		public CityTypeMap()
+		public UncategorizedAddressObjectTypeMap()
 		{
-			Table("city_types");
+			Table("uncategorized_address_types");
 			Id(x => x.Id).Column("id").GeneratedBy.TriggerIdentity();
 			Map(x => x.FiasId).Column("fias_id");
 			References(x => x.Level).Column("level").Fetch.Join();

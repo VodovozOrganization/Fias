@@ -3,15 +3,17 @@ using FluentNHibernate.Mapping;
 
 namespace Fias.Domain.Mapping
 {
-	public class SteadMap : ClassMap<Stead>
+	public class UncategorizedAddressObjectMap : ClassMap<UncategorizedAddressObject>
 	{
-		public SteadMap()
+		public UncategorizedAddressObjectMap()
 		{
-			Table("steads");
+			Table("uncategorized_address_objects");
 			Id(x => x.Id).Column("id").GeneratedBy.TriggerIdentity();
-			Map(x => x.FiasSteadId).Column("fias_stead_id");
-			Map(x => x.FiasSteadGuid).Column("fias_stead_guid");
-			Map(x => x.Number).Column("number");
+			Map(x => x.FiasId).Column("fias_id");
+			Map(x => x.FiasGuid).Column("fias_guid");
+			Map(x => x.Name).Column("name");
+			References(x => x.Level).Column("level").Fetch.Join();
+			References(x => x.ObjectType).Column("type_id").Fetch.Join();
 			Map(x => x.PreviousId).Column("previous_id");
 			Map(x => x.NextId).Column("next_id");
 			Map(x => x.UpdateDate).Column("update_date");

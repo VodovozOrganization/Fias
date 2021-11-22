@@ -1,14 +1,15 @@
-﻿using Domain.Entities;
+﻿using Fias.Domain.Entities;
 using FluentNHibernate.Mapping;
 
-namespace Domain.Mapping
+namespace Fias.Domain.Mapping
 {
 	public class StreetTypeMap : ClassMap<StreetType>
 	{
 		public StreetTypeMap()
 		{
 			Table("street_types");
-			Id(x => x.Id).Column("id").GeneratedBy.Native();
+			Id(x => x.Id).Column("id").GeneratedBy.TriggerIdentity();
+			Map(x => x.FiasId).Column("fias_id");
 			References(x => x.Level).Column("level").Fetch.Join();
 			Map(x => x.Name).Column("name");
 			Map(x => x.ShortName).Column("short_name");

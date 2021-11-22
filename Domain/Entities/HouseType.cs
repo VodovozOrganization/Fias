@@ -1,14 +1,16 @@
 ﻿using System;
 
-namespace Domain.Entities
+namespace Fias.Domain.Entities
 {
     public class HouseType
     {
         public virtual int Id { get; set; }
 
+		public virtual long FiasId { get; set; }
+
         public virtual string Name { get; set; }
 
-        public virtual string ShortName { get; set; }
+		public virtual string ShortName { get; set; }
 
         public virtual string Description { get; set; }
 
