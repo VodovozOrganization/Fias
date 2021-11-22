@@ -1,16 +1,14 @@
-﻿namespace Fias.Entities
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.Xml.Serialization;
+
+namespace Fias.Source.Entities
 {
-	using System;
-	using System.ComponentModel.DataAnnotations;
-	using System.Xml.Serialization;
-
-
 	[Serializable()]
 	[FiasFile(FiasFileTypeName = "AS_APARTMENTS")]
     [XmlType("APARTMENT", Namespace="", AnonymousType=true)]
 	public partial class FiasApartment
     {
-        
         /// <summary>
         /// <para>Уникальный идентификатор записи. Ключевое поле</para>
         /// <para xml:lang="en">Total number of digits: 19.</para>
@@ -114,14 +112,47 @@
         /// </summary>
         [Required()]
         [XmlAttribute("ISACTUAL")]
-        public sbyte IsActual { get; set; }
-        
-        /// <summary>
-        /// <para>Признак действующего адресного объекта</para>
-        /// <para xml:lang="en">Total number of digits: 1.</para>
-        /// </summary>
-        [Required()]
+        public string IsActualValue { get; set; }
+
+		/// <summary>
+		/// <para>Статус актуальности адресного объекта ФИАС</para>
+		/// </summary>
+		[XmlIgnore()]
+		public bool IsActual
+		{
+			get
+			{
+				return IsActualValue == "1";
+			}
+			set
+			{
+				IsActualValue = value ? "1" : "0";
+			}
+		}
+
+		/// <summary>
+		/// <para>Признак действующего адресного объекта</para>
+		/// <para xml:lang="en">Total number of digits: 1.</para>
+		/// </summary>
+		[Required()]
         [XmlAttribute("ISACTIVE")]
-        public sbyte IsActive { get; set; }
-    }
+        public string IsActiveValue { get; set; }
+
+
+		/// <summary>
+		/// <para>Признак действующего адресного объекта</para>
+		/// </summary>
+		[XmlIgnore()]
+		public bool IsActive
+		{
+			get
+			{
+				return IsActiveValue == "1";
+			}
+			set
+			{
+				IsActiveValue = value ? "1" : "0";
+			}
+		}
+	}
 }

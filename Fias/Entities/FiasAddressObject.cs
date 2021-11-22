@@ -1,10 +1,9 @@
-﻿namespace Fias.Entities
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.Xml.Serialization;
+
+namespace Fias.Source.Entities
 {
-	using System;
-	using System.ComponentModel.DataAnnotations;
-	using System.Xml.Serialization;
-
-
 	[Serializable()]
 	[FiasFile(FiasFileTypeName = "AS_ADDR_OBJ")]
 	[XmlType("OBJECT", Namespace = "", AnonymousType = true)]
@@ -35,7 +34,7 @@
 		[MaxLength(36)]
 		[Required()]
 		[XmlAttribute("OBJECTGUID")]
-		public string ObjectGuidValue { get; set; }
+		public string ObjectGuid { get; set; }
 
 		/// <summary>
 		/// <para>ID изменившей транзакции</para>
@@ -78,7 +77,7 @@
 		[RegularExpression("[0-9]{1,10}")]
 		[Required()]
 		[XmlAttribute("LEVEL")]
-		public string Level { get; set; }
+		public int Level { get; set; }
 
 		/// <summary>
 		/// <para>Статус действия над записью – причина появления записи</para>

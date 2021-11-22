@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Xml.Serialization;
 
-namespace Fias.Entities
+namespace Fias.Source.Entities
 {
 	[Serializable()]
 	[FiasFile(FiasFileTypeName = "AS_ADDR_OBJ_DIVISION")]

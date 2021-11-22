@@ -1,23 +1,21 @@
-﻿namespace Fias.Entities
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.Xml.Serialization;
+
+namespace Fias.Source.Entities
 {
-	using System;
-	using System.ComponentModel.DataAnnotations;
-	using System.Xml.Serialization;
-
-
 	[Serializable()]
 	[FiasFile(FiasFileTypeName = "AS_OBJECT_LEVELS")]
     [XmlType("OBJECTLEVEL", Namespace="", AnonymousType=true)]
     public partial class FiasObjectLevel
     {
-        
         /// <summary>
         /// <para>Уникальный идентификатор записи. Ключевое поле. Номер уровня объекта</para>
         /// <para xml:lang="en">Total number of digits: 2.</para>
         /// </summary>
         [Required()]
         [XmlAttribute("LEVEL")]
-        public sbyte Level { get; set; }
+        public int Level { get; set; }
         
         /// <summary>
         /// <para>Наименование</para>

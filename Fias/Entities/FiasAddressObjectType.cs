@@ -1,16 +1,14 @@
-﻿namespace Fias.Entities
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.Xml.Serialization;
+
+namespace Fias.Source.Entities
 {
-	using System;
-	using System.ComponentModel.DataAnnotations;
-	using System.Xml.Serialization;
-
-
 	[Serializable()]
 	[FiasFile(FiasFileTypeName = "AS_ADDR_OBJ_TYPES")]
     [XmlType("ADDRESSOBJECTTYPE", Namespace="", AnonymousType=true)]
 	public partial class FiasAddressObjectType
     {
-        
         /// <summary>
         /// <para>Идентификатор записи</para>
         /// <para xml:lang="en">Total number of digits: 10.</para>
@@ -24,7 +22,7 @@
         /// </summary>
         [Required()]
         [XmlAttribute("LEVEL")]
-        public string Level { get; set; }
+        public int Level { get; set; }
         
         /// <summary>
         /// <para>Краткое наименование типа объекта</para>

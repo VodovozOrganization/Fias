@@ -1,16 +1,14 @@
-﻿namespace Fias.Entities
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.Xml.Serialization;
+
+namespace Fias.Source.Entities
 {
-	using System;
-	using System.ComponentModel.DataAnnotations;
-	using System.Xml.Serialization;
-
-
 	[Serializable()]
 	[FiasFile(FiasFileTypeName = "AS_ADM_HIERARCHY")]
     [XmlType("ITEM", Namespace="", AnonymousType=true)]
-	public partial class FiasAdmHierarchy
-    {
-        
+	public partial class FiasAdmHierarchy : IFiasHierarchy
+	{
         /// <summary>
         /// <para>Уникальный идентификатор записи. Ключевое поле</para>
         /// <para xml:lang="en">Total number of digits: 19.</para>

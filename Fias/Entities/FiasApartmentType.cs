@@ -1,16 +1,14 @@
-﻿namespace Fias.Entities
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.Xml.Serialization;
+
+namespace Fias.Source.Entities
 {
-	using System;
-	using System.ComponentModel.DataAnnotations;
-	using System.Xml.Serialization;
-
-
 	[Serializable()]
 	[FiasFile(FiasFileTypeName = "AS_APARTMENT_TYPES")]
     [XmlType("APARTMENTTYPE", Namespace="", AnonymousType=true)]
 	public partial class FiasApartmentType
     {
-        
         /// <summary>
         /// <para>Идентификатор типа (ключ)</para>
         /// <para xml:lang="en">Total number of digits: 10.</para>

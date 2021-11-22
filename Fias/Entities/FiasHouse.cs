@@ -1,16 +1,14 @@
-﻿namespace Fias.Entities
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.Xml.Serialization;
+
+namespace Fias.Source.Entities
 {
-	using System;
-	using System.ComponentModel.DataAnnotations;
-	using System.Xml.Serialization;
-
-
 	[Serializable()]
 	[FiasFile(FiasFileTypeName = "AS_HOUSES")]
     [XmlType("HOUSE", Namespace="", AnonymousType=true)]
 	public partial class FiasHouse
     {
-        
         /// <summary>
         /// <para>Уникальный идентификатор записи. Ключевое поле</para>
         /// <para xml:lang="en">Total number of digits: 19.</para>
@@ -80,19 +78,19 @@
         /// <para>Основной тип дома</para>
         /// </summary>
         [XmlAttribute("HOUSETYPE")]
-        public string HouseType { get; set; }
+        public int HouseType { get; set; }
         
         /// <summary>
         /// <para>Дополнительный тип дома 1</para>
         /// </summary>
         [XmlAttribute("ADDTYPE1")]
-        public string AddType1 { get; set; }
+        public int AddType1 { get; set; }
         
         /// <summary>
         /// <para>Дополнительный тип дома 2</para>
         /// </summary>
         [XmlAttribute("ADDTYPE2")]
-        public string AddType2 { get; set; }
+        public int AddType2 { get; set; }
         
         /// <summary>
         /// <para>Статус действия над записью – причина появления записи</para>

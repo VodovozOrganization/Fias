@@ -1,10 +1,9 @@
-﻿namespace Fias.Entities
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.Xml.Serialization;
+
+namespace Fias.Source.Entities
 {
-	using System;
-	using System.ComponentModel.DataAnnotations;
-	using System.Xml.Serialization;
-
-
 	[Serializable()]
 	[FiasFile(FiasFileTypeName = "AS_STEADS")]
     [XmlType("STEAD", Namespace="", AnonymousType=true)]
@@ -74,14 +73,14 @@
         /// <para xml:lang="en">Total number of digits: 19.</para>
         /// </summary>
         [XmlAttribute("PREVID")]
-        public decimal PreviousId { get; set; }
+        public long PreviousId { get; set; }
         
         /// <summary>
         /// <para>Идентификатор записи связывания с последующей исторической записью</para>
         /// <para xml:lang="en">Total number of digits: 19.</para>
         /// </summary>
         [XmlAttribute("NEXTID")]
-        public decimal NextId { get; set; }
+        public long NextId { get; set; }
         
         /// <summary>
         /// <para>Дата внесения (обновления) записи</para>
