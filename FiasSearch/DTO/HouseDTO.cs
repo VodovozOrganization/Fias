@@ -100,5 +100,40 @@ namespace Fias.Search.DTO
 		/// Долгота
 		/// </summary>
 		public string Longitude { get; set; }
+
+		public string ComplexNumber
+		{
+			get
+			{
+				var houseName = string.Empty;
+
+				if(!string.IsNullOrWhiteSpace(ObjectNumber))
+				{
+					houseName += $"{ObjectNumber}";
+				}
+
+				if(!string.IsNullOrWhiteSpace(AddType1ShortName))
+				{
+					houseName += $", {AddType1ShortName}";
+				}
+
+				if(!string.IsNullOrWhiteSpace(AddNumber1))
+				{
+					houseName += $" {AddNumber1}";
+				}
+
+				if(!string.IsNullOrWhiteSpace(AddType2ShortName))
+				{
+					houseName += $", {AddType2ShortName}";
+				}
+
+				if(!string.IsNullOrWhiteSpace(AddNumber2))
+				{
+					houseName += $" {AddNumber2}";
+				}
+
+				return houseName;
+			}
+		}
 	}
 }
