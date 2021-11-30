@@ -156,13 +156,14 @@ SELECT
 	ht3.""name"" AS {nameof(HouseDTO.AddType2Name)},
 	ht3.short_name AS {nameof(HouseDTO.AddType2ShortName)},
 	ht3.description AS {nameof(HouseDTO.AddType2Description)},
-	null AS {nameof(HouseDTO.Latitude)},
-	null AS {nameof(HouseDTO.Longitude)}
+	hc.lat AS {nameof(HouseDTO.Latitude)},
+	hc.lon AS {nameof(HouseDTO.Longitude)}
 FROM
 	houses h {houseHierarchyJoin}	
 	LEFT JOIN house_types ht1 ON ht1.id = h.house_type
 	LEFT JOIN house_types ht2 ON ht2.id = h.add_type_1
 	LEFT JOIN house_types ht3 ON ht3.id = h.add_type_2
+	LEFT JOIN house_coordinate hc ON hc.house_fias_guid = h.fias_house_guid
 {whereHouse}
 UNION ALL
 SELECT
