@@ -1,6 +1,4 @@
-﻿//using Microsoft.AspNetCore.Authentication.JwtBearer;
-
-using FluentNHibernate.Cfg;
+﻿using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -25,12 +23,11 @@ namespace FiasApi
 	public class Startup
 	{
 		private ILogger<Startup> _logger;
+		private readonly IConfiguration _configuration;
 		public Startup(IConfiguration configuration)
 		{
-			Configuration = configuration;
+			_configuration = configuration;
 		}
-
-		public IConfiguration Configuration { get; }
 
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
@@ -59,7 +56,7 @@ namespace FiasApi
 						ValidateLifetime = false,
 						ValidateIssuerSigningKey = true,
 						IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
-							Configuration.GetValue<string>("Security:Token:SecurityKey")
+							_configuration.GetValue<string>("Security:Token:SecurityKey")
 						)),
 					};
 				});
@@ -77,13 +74,13 @@ namespace FiasApi
 		{
 			_logger.LogInformation("Connect to FIAS...");
 			var connectionBuilder = new NpgsqlConnectionStringBuilder();
-			var fiasSection = Configuration.GetSection("ConnectionStrings:FiasConnection");
+			var fiasSection = _configuration.GetSection("ConnectionStrings:FiasConnection");
 
 			connectionBuilder.Host = fiasSection.GetValue<string>( "Host");
 			connectionBuilder.Port = fiasSection.GetValue<int>("Port"); ;
 			connectionBuilder.Database = fiasSection.GetValue<string>("Database");
 			connectionBuilder.Username = fiasSection.GetValue<string>("Username");
-			//connectionBuilder.Password = "пароль";
+			connectionBuilder.Password = fiasSection.GetValue<string>("Password");
 			connectionBuilder.SslMode = SslMode.Disable;
 
 			var databaseConfig = PostgreSQLConfiguration.Standard

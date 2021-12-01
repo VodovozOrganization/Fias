@@ -55,9 +55,7 @@ namespace FiasApi.MiddleWare
 
 			do
 			{
-				readChunkLength = reader.ReadBlock(readChunk,
-												   0,
-												   readChunkBufferLength);
+				readChunkLength = reader.ReadBlock(readChunk, 0, readChunkBufferLength);
 				textWriter.Write(readChunk, 0, readChunkLength);
 			}
 			while(readChunkLength > 0);
