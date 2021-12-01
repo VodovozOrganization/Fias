@@ -2,6 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Vodovoz</Authors>
+    <Company>Vodovoz</Company>
+    <PackageId>Vodovoz.Fias.Search</PackageId>
+    <Product>Vodovoz.Fias.Search</Product>
   </PropertyGroup>
 
   <ItemGroup>

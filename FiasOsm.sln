@@ -18,6 +18,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fias.LoadModel", "Model\Fia
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fias.Search", "FiasSearch\Fias.Search.csproj", "{056A858D-50F8-4347-BC43-4B4164C8E7E5}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FiasApi", "FiasApi\FiasApi.csproj", "{F9AFDCCE-DDB1-475D-A7EF-233333569233}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeoCoder", "GeoCoder\GeoCoder.csproj", "{35AFDFDC-C18C-439E-ACED-7A240A562D12}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,6 +48,14 @@ Global
 		{056A858D-50F8-4347-BC43-4B4164C8E7E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{056A858D-50F8-4347-BC43-4B4164C8E7E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{056A858D-50F8-4347-BC43-4B4164C8E7E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9AFDCCE-DDB1-475D-A7EF-233333569233}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9AFDCCE-DDB1-475D-A7EF-233333569233}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9AFDCCE-DDB1-475D-A7EF-233333569233}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9AFDCCE-DDB1-475D-A7EF-233333569233}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35AFDFDC-C18C-439E-ACED-7A240A562D12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35AFDFDC-C18C-439E-ACED-7A240A562D12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35AFDFDC-C18C-439E-ACED-7A240A562D12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35AFDFDC-C18C-439E-ACED-7A240A562D12}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

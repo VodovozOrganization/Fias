@@ -2,6 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <Authors>Vodovoz</Authors>
+    <Company>Vodovoz</Company>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>Vodovoz.GeoCoder</PackageId>
+    <Product>Vodovoz.GeoCoder</Product>
   </PropertyGroup>
 
 </Project>
