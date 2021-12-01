@@ -3,6 +3,8 @@ using NHibernate;
 using NHibernate.Transform;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Fias.Search
 {
@@ -19,7 +21,26 @@ namespace Fias.Search
 		{
 			using(var session = _sessionFactory.OpenSession())
 			{
-				var query = GetQuery(houseNumberSubstring, streetGuid, true, limit, isActive);
+				var houseNumbers = GetHouseNumbers(houseNumberSubstring);
+				if(!houseNumbers.Any())
+				{
+					return Enumerable.Empty<HouseDTO>();
+				}
+				int houseNumber = houseNumbers[0];
+				int? corpusNumber = null;
+				int? buildingNumber = null;
+
+				if(houseNumbers.Count > 1)
+				{
+					corpusNumber = houseNumbers[1];
+				}
+
+				if(houseNumbers.Count > 2)
+				{
+					buildingNumber = houseNumbers[2];
+				}
+
+				var query = GetQuery(houseNumber, corpusNumber, buildingNumber, streetGuid, true, limit, isActive);
 
 				var sqlQuery = session.CreateSQLQuery(query);
 				SetResultTypes(sqlQuery);
@@ -32,7 +53,26 @@ namespace Fias.Search
 		{
 			using(var session = _sessionFactory.OpenSession())
 			{
-				var query = GetQuery(houseNumberSubstring, cityGuid, false, limit, isActive);
+				var houseNumbers = GetHouseNumbers(houseNumberSubstring);
+				if(!houseNumbers.Any())
+				{
+					return Enumerable.Empty<HouseDTO>();
+				}
+				int houseNumber = houseNumbers[0];
+				int? corpusNumber = null;
+				int? buildingNumber = null;
+
+				if(houseNumbers.Count > 1)
+				{
+					corpusNumber = houseNumbers[1];
+				}
+
+				if(houseNumbers.Count > 2)
+				{
+					buildingNumber = houseNumbers[2];
+				}
+
+				var query = GetQuery(houseNumber, corpusNumber, buildingNumber, cityGuid, false, limit, isActive);
 
 				var sqlQuery = session.CreateSQLQuery(query);
 				SetResultTypes(sqlQuery);
@@ -41,13 +81,33 @@ namespace Fias.Search
 			}
 		}
 
-		private string GetQuery(string houseSubstring, Guid parentGuid, bool isStreet, int? limit = null, bool isActive = true)
+		private IList<int> GetHouseNumbers(string houseSubstring)
+		{
+			Regex rgx = new Regex(@"\d{1,}");
+			var matches = rgx.Matches(houseSubstring);
+			List<int> result = new List<int>();
+
+			foreach(Match match in matches)
+			{
+				if(!int.TryParse(match.Value, out int houseNumber))
+				{
+					continue;
+				}
+				result.Add(houseNumber);
+			}
+			return result;
+		}
+
+		private string GetQuery(int houseNumber, int? corpusNumber, int? buildingNumber, Guid parentGuid, bool isStreet, int? limit = null, bool isActive = true)
 		{
 			var limitQuery = limit == null ? "" : $"\nLIMIT {limit}";
 			var cityHouseQuery = isStreet ? "FALSE" : $"hch.fias_city_guid = '{parentGuid}'";
 			var citySteadQuery = isStreet ? "FALSE" : $"sch.fias_city_guid = '{parentGuid}'";
 			var streetHouseQuery = isStreet ? $"hsh.fias_street_guid = '{parentGuid}'" : "FALSE";
 			var streetSteadQuery = isStreet ? $"ssh.fias_street_guid = '{parentGuid}'" : "FALSE";
+			var houseQuery = $"'{houseNumber}%'";
+			var corpusQuery = corpusNumber != null ? $"'{corpusNumber.Value}%'" : "''";
+			var buildingQuery = buildingNumber != null ? $"'{buildingNumber.Value}%'" : "''";
 			var query = $@"
 SELECT
 	house.id AS {nameof(HouseDTO.Id)},
@@ -134,12 +194,16 @@ FROM
 			AND(h.add_type_1 NOT IN(4, 6, 11, 12, 13, 14) OR h.add_type_1 IS NULL)
 			AND(h.add_type_2 NOT IN(4, 6, 11, 12, 13, 14) OR h.add_type_2 IS NULL)
 			--Поиск дома
-			AND
+			AND 
 			(
-				--Если тип дома корпус, то номер дома надо искать в доп номере
-				(h.add_number_1 ILIKE '{houseSubstring}%' AND h.house_type = 10)
-				OR
-				(h.""number"" ILIKE '{houseSubstring}%')
+				(
+					(h.""number"" ILIKE {houseQuery} AND (h.add_number_1 ILIKE {corpusQuery} OR {corpusQuery} = '') AND h.house_type != 10)
+					OR
+					--Если тип дома корпус, то надо поменять их с домом местами
+					(h.""number"" ILIKE {corpusQuery} AND(h.add_number_1 ILIKE {houseQuery}) AND h.house_type = 10)
+				)
+				AND
+				(h.add_number_2 ILIKE {buildingQuery} OR ({buildingQuery} = ''))
 			)
 		UNION ALL
 		SELECT
@@ -180,12 +244,16 @@ FROM
 			AND(h.add_type_1 NOT IN(4, 6, 11, 12, 13, 14) OR h.add_type_1 IS NULL)
 			AND(h.add_type_2 NOT IN(4, 6, 11, 12, 13, 14) OR h.add_type_2 IS NULL)
 			--Поиск дома
-			AND
+			AND 
 			(
-				--Если тип дома корпус, то номер дома надо искать в доп номере
-				(h.add_number_1 ILIKE '{houseSubstring}%' AND h.house_type = 10)
-				OR
-				(h.""number"" ILIKE '{houseSubstring}%')
+				(
+					(h.""number"" ILIKE {houseQuery} AND (h.add_number_1 ILIKE {corpusQuery} OR {corpusQuery} = '') AND h.house_type != 10)
+					OR
+					--Если тип дома корпус, то надо поменять их с домом местами
+					(h.""number"" ILIKE {corpusQuery} AND(h.add_number_1 ILIKE {houseQuery}) AND h.house_type = 10)
+				)
+				AND
+				(h.add_number_2 ILIKE {buildingQuery} OR ({buildingQuery} = ''))
 			)
 		UNION ALL
 		SELECT
@@ -205,7 +273,7 @@ FROM
 		WHERE
 			{citySteadQuery}
 			AND s.is_active = {isActive}
-			AND s.""number"" ILIKE '{houseSubstring}%'
+			AND s.""number"" ILIKE {houseQuery}
 		UNION ALL
 		SELECT
 			s.id,
@@ -224,7 +292,7 @@ FROM
 		WHERE
 			{streetSteadQuery}
 			AND s.is_active = {isActive}
-			AND s.""number"" ILIKE '{houseSubstring}%'{limitQuery}
+			AND s.""number"" ILIKE {houseQuery}{limitQuery}
 	) house_inn
 ) house
 LEFT JOIN house_types ht1 ON ht1.id = house.type1
