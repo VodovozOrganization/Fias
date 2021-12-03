@@ -138,6 +138,7 @@ FROM
 		CASE
 			WHEN(house_inn.type1 = 1) THEN 10
 			WHEN(house_inn.type1 = 3) THEN 7
+			WHEN(house_inn.type1 = 4) THEN 9
 			ELSE house_inn.type1
 		END AS type1,
 		house_inn.number2,
@@ -145,6 +146,8 @@ FROM
 		CASE
 			WHEN(house_inn.type2 = 1) THEN 10
 			WHEN(house_inn.type2 = 3) THEN 7
+			WHEN(house_inn.type2 = 2) THEN 7
+			WHEN(house_inn.type2 = 4) THEN 9
 			ELSE house_inn.type2
 		END AS type2,
 		house_inn.number3,
@@ -152,6 +155,8 @@ FROM
 		CASE
 			WHEN(house_inn.type3 = 1) THEN 10
 			WHEN(house_inn.type3 = 3) THEN 7
+			WHEN(house_inn.type3 = 2) THEN 7
+			WHEN(house_inn.type3 = 4) THEN 9
 			ELSE house_inn.type3
 		END AS type3
 	FROM
@@ -190,9 +195,9 @@ FROM
 			{cityHouseQuery}
 			AND h.is_active = {isActive}
 			--Исключаем не нужные типы помещений
-			AND(h.house_type NOT IN(4, 6, 11, 12, 13, 14) OR h.house_type IS NULL)
-			AND(h.add_type_1 NOT IN(4, 6, 11, 12, 13, 14) OR h.add_type_1 IS NULL)
-			AND(h.add_type_2 NOT IN(4, 6, 11, 12, 13, 14) OR h.add_type_2 IS NULL)
+			AND(h.house_type NOT IN(6, 11, 12, 13, 14) OR h.house_type IS NULL)
+			AND(h.add_type_1 NOT IN(6, 11, 12, 13, 14) OR h.add_type_1 IS NULL)
+			AND(h.add_type_2 NOT IN(6, 11, 12, 13, 14) OR h.add_type_2 IS NULL)
 			--Поиск дома
 			AND 
 			(
@@ -240,9 +245,9 @@ FROM
 			{streetHouseQuery}
 			AND h.is_active = {isActive}
 			--Исключаем не нужные типы помещений
-			AND(h.house_type NOT IN(4, 6, 11, 12, 13, 14) OR h.house_type IS NULL)
-			AND(h.add_type_1 NOT IN(4, 6, 11, 12, 13, 14) OR h.add_type_1 IS NULL)
-			AND(h.add_type_2 NOT IN(4, 6, 11, 12, 13, 14) OR h.add_type_2 IS NULL)
+			AND(h.house_type NOT IN(6, 11, 12, 13, 14) OR h.house_type IS NULL)
+			AND(h.add_type_1 NOT IN(6, 11, 12, 13, 14) OR h.add_type_1 IS NULL)
+			AND(h.add_type_2 NOT IN(6, 11, 12, 13, 14) OR h.add_type_2 IS NULL)
 			--Поиск дома
 			AND 
 			(
