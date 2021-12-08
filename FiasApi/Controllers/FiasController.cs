@@ -58,12 +58,6 @@ namespace FiasApi.Controllers
 			return _streetRepository.GetStreets(searchString, cityGuid, limit, isActive);
 		}
 
-		[HttpGet("/api/GetHousesFromStreet")]
-		public IEnumerable<HouseDTO> GetHousesFromStreet(Guid streetGuid, int? limit = null, bool isActive = true)
-		{
-			return _houseRepository.GetHousesFromStreet(streetGuid, limit, isActive).OrderBy(x=>x.HouseObjectType);
-		}
-
 		[HttpGet("/api/GetHousesFromStreetByCriteria")]
 		public IEnumerable<HouseDTO> GetHousesFromStreetByCriteria(Guid streetGuid, string searchString, int? limit = null, bool isActive = true)
 		{
