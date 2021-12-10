@@ -38,5 +38,10 @@ namespace Fias.Search.DTO
 		/// Район города
 		/// </summary>
 		public string StreetDistrict { get; set; }
+
+		/// <summary>
+		/// Территория в которой находится улица
+		/// </summary>
+		public string StreetTerritory { get; set; }
 	}
 }

@@ -3,6 +3,7 @@ using NHibernate;
 using NHibernate.Transform;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Fias.Search
 {
@@ -82,6 +83,29 @@ namespace Fias.Search
 			}
 		}
 
+		public IEnumerable<StreetDTO> GetStreets(IEnumerable<Guid> streetGuids, bool isActive = true)
+		{
+			if(!streetGuids.Any())
+			{
+				return Enumerable.Empty<StreetDTO>();
+			}
+
+			var guidsArrayString = string.Join(", ", streetGuids.Select(x => $"'{x}'"));
+
+			using(var session = _sessionFactory.OpenSession())
+			{
+				var where = $@"WHERE
+			s.fias_street_guid IN ({guidsArrayString})
+			AND s.is_active = {isActive}";
+				var query = GetQuery(where);
+
+				var result = session.CreateSQLQuery(query)
+					.SetResultTransformer(Transformers.AliasToBean(typeof(StreetDTO)))
+					.List<StreetDTO>();
+				return result;
+			}
+		}
+
 		private string GetQuery(string where, int? limit = null)
 		{
 			var limitQuery = limit == null ? "" : $"\nLIMIT {limit}";
@@ -94,7 +118,8 @@ SELECT
 	st.""name"" AS {nameof(StreetDTO.TypeName)},
 	st.short_name AS {nameof(StreetDTO.TypeShortName)},
 	st.description AS {nameof(StreetDTO.TypeDescription)},
-	concat_ws(', ', d.""name"", parent_street.""name"") AS {nameof(StreetDTO.StreetDistrict)}
+	d.""name"" AS {nameof(StreetDTO.StreetDistrict)},
+	parent_street.""name"" AS {nameof(StreetDTO.StreetTerritory)}
 FROM
 	public.street_city_hierarchy sch
 	INNER JOIN public.streets s ON s.fias_street_guid = sch.fias_street_guid
