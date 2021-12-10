@@ -46,6 +46,22 @@ namespace Fias.Search
 			}
 		}
 
+		public CityDTO GetCity(string city, bool isActive = true)
+		{
+			using(var session = _sessionFactory.OpenSession())
+			{
+				var where = $@"WHERE
+			LOWER(c.""name"") = LOWER('{city}')
+			AND c.is_active = {isActive}";
+				var query = GetQuery(where);
+
+				var result = session.CreateSQLQuery(query)
+					.SetResultTransformer(Transformers.AliasToBean(typeof(CityDTO)))
+					.UniqueResult<CityDTO>();
+				return result;
+			}
+		}
+
 		public CityDTO GetCity(Guid cityGuid, bool isActive = true)
 		{
 			using(var session = _sessionFactory.OpenSession())

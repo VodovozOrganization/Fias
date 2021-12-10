@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-namespace Fias
+namespace Fias.Source
 {
 	public class FiasReaderFactory : IDisposable
 	{

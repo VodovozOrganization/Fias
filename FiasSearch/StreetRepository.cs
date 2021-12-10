@@ -48,6 +48,24 @@ namespace Fias.Search
 			}
 		}
 
+		public StreetDTO GetStreet(Guid cityGuid, string street, string type, bool isActive = true)
+		{
+			using(var session = _sessionFactory.OpenSession())
+			{
+				var where = $@"WHERE
+			sch.fias_city_guid = '{cityGuid}'
+			AND LOWER(s.""name"") = LOWER('{street}')
+			AND LOWER(st.""name"") = LOWER('{type}')
+			AND s.is_active = {isActive}";
+				var query = GetQuery(where);
+
+				var result = session.CreateSQLQuery(query)
+					.SetResultTransformer(Transformers.AliasToBean(typeof(StreetDTO)))
+					.UniqueResult<StreetDTO>();
+				return result;
+			}
+		}
+
 		public StreetDTO GetStreet(Guid streetGuid, bool isActive = true)
 		{
 			using(var session = _sessionFactory.OpenSession())

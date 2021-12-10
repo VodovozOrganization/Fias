@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Fias
+namespace Fias.Source
 {
 	public class FiasFileAttribute : Attribute
 	{

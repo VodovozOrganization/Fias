@@ -2,10 +2,9 @@
 using System.IO;
 using System.Linq;
 using System.Xml;
-using System.Xml.Schema;
 using System.Xml.Serialization;
 
-namespace Fias
+namespace Fias.Source
 {
 	public class ElementReader<T> : IDisposable
 	{
@@ -18,9 +17,6 @@ namespace Fias
 		private bool _initial;
 		private bool _isDisposed;
 		private T _nextElementBuffer;
-
-		public event ValidationEventHandler ValidationEvent;
-
 
 		public ElementReader(Stream stream, string defaultElementName = "")
 		{
@@ -49,20 +45,6 @@ namespace Fias
 			_initial = true;
 		}
 
-		public virtual bool TryReadNext(out T result)
-		{
-			result = default(T);
-			try
-			{
-				result = ReadNext();
-			}
-			catch(Exception)
-			{
-				return false;
-			}
-			return true;
-		}
-
 		public virtual T ReadNext()
 		{
 			T result = _nextElementBuffer;
@@ -84,12 +66,16 @@ namespace Fias
 		protected virtual T ReadNextItem()
 		{
 			T result = default(T);
-			while(_reader.Read())
+			while(!_reader.EOF)
 			{
 				if(_reader.NodeType == XmlNodeType.Element && _reader.Name == _elementName)
 				{
 					result = (T)_serializer.Deserialize(_reader);
 					break;
+				}
+				else
+				{
+					_reader.Read();
 				}
 			}
 			
