@@ -195,6 +195,8 @@ namespace Fias.LoadModel
 				var apartmentModel = new ApartmentModel(apartmentTypeModel, fiasReaderFactory, _sessionFactory);
 				var reestrObjectModel = new ReestrObjectModel(levelModel, fiasReaderFactory, _sessionFactory);
 				var hierarchyModel = new HierarchyModel(fiasReaderFactory, _sessionFactory);
+				var hierarchyDistrictModel = new HierarchyDistrictModel(fiasReaderFactory, _sessionFactory);
+				var hierarchyAdditionalStreetModel = new HierarchyAdditionalStreetModel(fiasReaderFactory, _sessionFactory);
 
 				regionModel.CreateRegions();
 				levelModel.LoadLevels();
@@ -211,6 +213,8 @@ namespace Fias.LoadModel
 					apartmentModel.LoadAndUpdateApartments(region.Code);
 					reestrObjectModel.LoadAndUpdateReestrObjects(region.Code);
 					hierarchyModel.LoadAndUpdateHierarchy(region.Code);
+					hierarchyDistrictModel.LoadAndUpdateHierarchy(region.Code);
+					hierarchyAdditionalStreetModel.LoadAndUpdateHierarchy(region.Code);
 				}
 			}
 		}

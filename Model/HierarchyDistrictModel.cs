@@ -27,7 +27,7 @@ namespace Fias.LoadModel
 		public void LoadAndUpdateHierarchy(int regionCode)
 		{
 			LoadMunDistricts();
-			//LoadMunHierarchy(regionCode);
+			LoadMunHierarchy(regionCode);
 			LoadMunHierarchyIntermediateLevels(regionCode, false);
 			LoadMunHierarchyIntermediateLevels(regionCode, true);
 		}
