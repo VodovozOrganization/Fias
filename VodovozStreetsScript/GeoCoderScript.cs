@@ -78,7 +78,14 @@ namespace VodovozStreetsScript
 		{
 			var task = dadataClient.Geolocate(deliveryPoint.Latitude, deliveryPoint.Longitude, 100);
 			task.Wait();
-			
+
+			if(string.IsNullOrWhiteSpace(deliveryPoint.Street))
+			{
+				SetAddressNotFoundToDB(deliveryPoint);
+				Console.WriteLine($"Id {deliveryPoint.Id} | street not found");
+				return;
+			}
+
 			var address = task.Result.suggestions.FirstOrDefault();
 			if(address == null)
 			{
