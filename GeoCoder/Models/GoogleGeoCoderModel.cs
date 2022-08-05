@@ -30,5 +30,10 @@ namespace GeoCoder.Models
 				return null;
 			}
 		}
+		public Task<string> GetAddressAsync(float latitude, float longitude)
+		{
+			throw new NotSupportedException("Currently getting address via google is not supported by the library.");
+		}
+
 	}
 }
