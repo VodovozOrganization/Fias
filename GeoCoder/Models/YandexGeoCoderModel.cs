@@ -21,12 +21,11 @@ namespace GeoCoder.Models
 		}
 		public async Task<GeoCoordinateDto> GetCoordinatesAsync(string address)
 		{
-			string baseAddress = "https://geocode-maps.yandex.ru/1.x/";
 			string requestParams = $"{ _baseUrl }?apikey={ _apiKey }&geocode={ Uri.EscapeDataString(address) }";
 
 			XmlDocument doc = new XmlDocument();
 
-			_client.BaseAddress = new Uri(baseAddress);
+			_client.BaseAddress = new Uri(_baseUrl);
 			_client.DefaultRequestHeaders.Accept.Clear();
 			_client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/xml"));
 
@@ -65,15 +64,13 @@ namespace GeoCoder.Models
 
 		public async Task<string> GetAddressAsync(float latitude, float longitude)
 		{
-			string baseAddress = "https://geocode-maps.yandex.ru/1.x/";
-
 			var point = $"{longitude},{latitude}";
 
 			string requestParams = $"{_baseUrl}?apikey={_apiKey}&geocode={Uri.EscapeDataString(point)}";
 
 			XmlDocument doc = new XmlDocument();
 
-			_client.BaseAddress = new Uri(baseAddress);
+			_client.BaseAddress = new Uri(_baseUrl);
 			_client.DefaultRequestHeaders.Accept.Clear();
 			_client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/xml"));
 
