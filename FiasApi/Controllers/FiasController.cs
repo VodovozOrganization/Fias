@@ -28,6 +28,8 @@ namespace FiasApi.Controllers
 		private readonly CityRepository _cityRepository;
 		private readonly HouseRepository _houseRepository;
 		private readonly StreetRepository _streetRepository;
+		private readonly string _yandexBaseUrl;
+		private readonly string _yandexApiKey;
 
 		public FiasController(IHttpClientFactory clientFactory, IConfiguration configuration, ILogger<FiasController> logger, ISessionFactory sessionFactory)
 		{
@@ -38,6 +40,8 @@ namespace FiasApi.Controllers
 			_cityRepository = new CityRepository(sessionFactory);
 			_houseRepository = new HouseRepository(sessionFactory);
 			_streetRepository = new StreetRepository(sessionFactory);
+			_yandexBaseUrl = _configuration.GetValue<string>("Security:YandexBaseUrl");
+			_yandexApiKey = _configuration.GetValue<string>("Security:YandexApiKey");
 		}
 
 		[HttpGet("/api/GetCitiesByCriteria")]
@@ -79,12 +83,10 @@ namespace FiasApi.Controllers
 			}
 
 			var client = _clientFactory.CreateClient();
-			var yandexBaseUrl = _configuration.GetValue<string>("Security:YandexBaseUrl");
-			var yandexApiKey = _configuration.GetValue<string>("Security:YandexApiKey");
 
 			var geoCoderList = new List<IGeoCoderModel>
 			{
-				new YandexGeoCoderModel(client, yandexBaseUrl, yandexApiKey)
+				new YandexGeoCoderModel(client, _yandexBaseUrl, _yandexApiKey)
 			};
 
 			foreach(var geoCoder in geoCoderList)
@@ -98,6 +100,34 @@ namespace FiasApi.Controllers
 						Latitude = geoDto.Latitude,
 						Longitude = geoDto.Longitude
 					};
+				}
+			}
+
+			return null;
+		}
+
+		[HttpGet("/api/GetAddressByGeoCoder")]
+		public async Task<string> GetAddressByGeoCoder(float latitude, float longitude)
+		{
+			if(latitude == null || longitude == null)
+			{
+				return null;
+			}
+
+			var client = _clientFactory.CreateClient();
+
+			var geoCoderList = new List<IGeoCoderModel>
+			{
+				new YandexGeoCoderModel(client, _yandexBaseUrl, _yandexApiKey)
+			};
+
+			foreach(var geoCoder in geoCoderList)
+			{
+				var address = await geoCoder.GetAddressAsync(latitude, longitude);
+
+				if(address != null)
+				{
+					return address;
 				}
 			}
 
