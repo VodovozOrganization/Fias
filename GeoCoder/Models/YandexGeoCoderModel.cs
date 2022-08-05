@@ -62,5 +62,51 @@ namespace GeoCoder.Models
 				Longitude = pos[0]
 			};
 		}
+
+		public async Task<string> GetAddressAsync(float latitude, float longitude)
+		{
+			string baseAddress = "https://geocode-maps.yandex.ru/1.x/";
+
+			var point = $"{longitude},{latitude}";
+
+			string requestParams = $"{_baseUrl}?apikey={_apiKey}&geocode={Uri.EscapeDataString(point)}";
+
+			XmlDocument doc = new XmlDocument();
+
+			_client.BaseAddress = new Uri(baseAddress);
+			_client.DefaultRequestHeaders.Accept.Clear();
+			_client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/xml"));
+
+			var response = await _client.GetAsync(requestParams);
+
+			if(response.IsSuccessStatusCode)
+			{
+				var product = await response.Content.ReadAsStringAsync();
+				doc.LoadXml(product);
+			}
+
+			bool isExactCoordinates =
+				doc["ymaps"]?["GeoObjectCollection"]?["featureMember"]?["GeoObject"]?["metaDataProperty"]?["GeocoderMetaData"]?
+					["precision"]?.InnerText == "exact";
+
+			if(!isExactCoordinates)
+			{
+				return null;
+			}
+
+			XmlNode posNode = doc["ymaps"]?["GeoObjectCollection"]?["featureMember"]?["GeoObject"]?["metaDataProperty"]?["GeocoderMetaData"]
+				?["AddressDetails"]?["Country"]?["AdministrativeArea"]?["Locality"];
+
+			if(posNode == null)
+			{
+				return null;
+			}
+
+			var city = posNode?["LocalityName"].InnerText;
+			var street = posNode?["Thoroughfare"]?["ThoroughfareName"].InnerText;
+			var house = posNode?["Thoroughfare"]?["Premise"]?["PremiseNumber"].InnerText;
+
+			return $"{city}, {street}, {house}";
+		}
 	}
 }
