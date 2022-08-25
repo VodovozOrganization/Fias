@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31229.75
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32414.318
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fias.Domain", "Domain\Fias.Domain.csproj", "{FAA7E357-CFDE-4B18-A0FC-97250B3DBB57}"
 EndProject
@@ -11,8 +11,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fias.Source", "Fias\Fias.Source.csproj", "{2A8AC6D4-D250-422C-AE37-5009F7DF4957}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleTest", "ConsoleTest\ConsoleTest.csproj", "{5E15409C-B2F8-4897-8FC0-92375C11D20F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fias.LoadModel", "Model\Fias.LoadModel.csproj", "{F522EAB7-04B9-4284-BBD1-E1E4FBC23708}"
 EndProject
@@ -36,10 +34,6 @@ Global
 		{2A8AC6D4-D250-422C-AE37-5009F7DF4957}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A8AC6D4-D250-422C-AE37-5009F7DF4957}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2A8AC6D4-D250-422C-AE37-5009F7DF4957}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5E15409C-B2F8-4897-8FC0-92375C11D20F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5E15409C-B2F8-4897-8FC0-92375C11D20F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5E15409C-B2F8-4897-8FC0-92375C11D20F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5E15409C-B2F8-4897-8FC0-92375C11D20F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F522EAB7-04B9-4284-BBD1-E1E4FBC23708}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F522EAB7-04B9-4284-BBD1-E1E4FBC23708}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F522EAB7-04B9-4284-BBD1-E1E4FBC23708}.Release|Any CPU.ActiveCfg = Release|Any CPU
