@@ -7,7 +7,7 @@ namespace Fias.Source.Entities
 	[Serializable()]
 	[FiasFile(FiasFileTypeName = "AS_MUN_HIERARCHY")]
     [XmlType("ITEM", Namespace="", AnonymousType=true)]
-	public partial class FiasMunHierarchy : IFiasHierarchy
+	public partial class FiasMunHierarchy
     {
         /// <summary>
         /// <para>Уникальный идентификатор записи. Ключевое поле</para>
