@@ -17,6 +17,7 @@ using Npgsql;
 using System.Reflection;
 using System.Text;
 using FiasApi.MiddleWare;
+using GeoCoder.Factories;
 
 namespace FiasApi
 {
@@ -66,8 +67,8 @@ namespace FiasApi
 				c.SwaggerDoc("v1", new OpenApiInfo { Title = "FiasAPI", Version = "v1" });
 			});
 
-
 			services.AddScoped<ISessionFactory>((sp) => ConfigureFiasConnection());
+			services.AddSingleton<IYandexGeoCoderModelFactory, YandexGeoCoderModelFactory>();
 		}
 
 		private ISessionFactory ConfigureFiasConnection()
