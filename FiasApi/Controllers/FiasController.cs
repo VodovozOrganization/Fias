@@ -7,7 +7,6 @@ using Microsoft.Extensions.Logging;
 using NHibernate;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using GeoCoder.Factories;
@@ -31,9 +30,6 @@ namespace FiasApi.Controllers
 		private readonly HouseRepository _houseRepository;
 		private readonly StreetRepository _streetRepository;
 		private readonly string _yandexBaseUrl;
-		private readonly string _yandexApiKey1;
-		private readonly string _yandexApiKey2;
-		private readonly string _yandexApiKey3;
 
 		public FiasController(
 			IHttpClientFactory clientFactory,
@@ -51,9 +47,6 @@ namespace FiasApi.Controllers
 			_houseRepository = new HouseRepository(sessionFactory);
 			_streetRepository = new StreetRepository(sessionFactory);
 			_yandexBaseUrl = _configuration.GetValue<string>("Security:YandexBaseUrl");
-			_yandexApiKey1 = _configuration.GetValue<string>("Security:YandexApiKey1");
-			_yandexApiKey2 = _configuration.GetValue<string>("Security:YandexApiKey2");
-			_yandexApiKey3 = _configuration.GetValue<string>("Security:YandexApiKey3");
 		}
 
 		[HttpGet("/api/GetCitiesByCriteria")]
@@ -95,13 +88,7 @@ namespace FiasApi.Controllers
 			}
 
 			var client = _clientFactory.CreateClient();
-
-			var geoCoderList = new List<IGeoCoderModel>
-			{
-				_yandexGeoCoderModelFactory.GetNewYandexGeoCoderModel(client, _yandexBaseUrl, _yandexApiKey1),
-				_yandexGeoCoderModelFactory.GetNewYandexGeoCoderModel(client, _yandexBaseUrl, _yandexApiKey2),
-				_yandexGeoCoderModelFactory.GetNewYandexGeoCoderModel(client, _yandexBaseUrl, _yandexApiKey3)
-			};
+			var geoCoderList = GetGeoCoderModels(client);
 
 			foreach(var geoCoder in geoCoderList)
 			{
@@ -129,13 +116,7 @@ namespace FiasApi.Controllers
 			}
 
 			var client = _clientFactory.CreateClient();
-
-			var geoCoderList = new List<IGeoCoderModel>
-			{
-				_yandexGeoCoderModelFactory.GetNewYandexGeoCoderModel(client, _yandexBaseUrl, _yandexApiKey1),
-				_yandexGeoCoderModelFactory.GetNewYandexGeoCoderModel(client, _yandexBaseUrl, _yandexApiKey2),
-				_yandexGeoCoderModelFactory.GetNewYandexGeoCoderModel(client, _yandexBaseUrl, _yandexApiKey3)
-			};
+			var geoCoderList = GetGeoCoderModels(client);
 
 			foreach(var geoCoder in geoCoderList)
 			{
@@ -148,6 +129,19 @@ namespace FiasApi.Controllers
 			}
 
 			return null;
+		}
+
+		private IList<IGeoCoderModel> GetGeoCoderModels(HttpClient client)
+		{
+			var geoCoderList = new List<IGeoCoderModel>();
+			var yandexApiKeys = _configuration.GetSection("YandexApiKeys").GetChildren();
+
+			foreach(var yandexApiKey in yandexApiKeys)
+			{
+				geoCoderList.Add(_yandexGeoCoderModelFactory.GetNewYandexGeoCoderModel(client, _yandexBaseUrl, yandexApiKey.Value));
+			}
+
+			return geoCoderList;
 		}
 	}
 }
