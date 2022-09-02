@@ -86,9 +86,8 @@ namespace FiasApi.Controllers
 			{
 				return null;
 			}
-
-			var client = _clientFactory.CreateClient();
-			var geoCoderList = GetGeoCoderModels(client);
+			
+			var geoCoderList = GetGeoCoderModels();
 
 			foreach(var geoCoder in geoCoderList)
 			{
@@ -114,9 +113,8 @@ namespace FiasApi.Controllers
 			{
 				return null;
 			}
-
-			var client = _clientFactory.CreateClient();
-			var geoCoderList = GetGeoCoderModels(client);
+			
+			var geoCoderList = GetGeoCoderModels();
 
 			foreach(var geoCoder in geoCoderList)
 			{
@@ -131,14 +129,14 @@ namespace FiasApi.Controllers
 			return null;
 		}
 
-		private IList<IGeoCoderModel> GetGeoCoderModels(HttpClient client)
+		private IList<IGeoCoderModel> GetGeoCoderModels()
 		{
 			var geoCoderList = new List<IGeoCoderModel>();
 			var yandexApiKeys = _configuration.GetSection("YandexApiKeys").GetChildren();
 
 			foreach(var yandexApiKey in yandexApiKeys)
 			{
-				geoCoderList.Add(_yandexGeoCoderModelFactory.GetNewYandexGeoCoderModel(client, _yandexBaseUrl, yandexApiKey.Value));
+				geoCoderList.Add(_yandexGeoCoderModelFactory.GetNewYandexGeoCoderModel(_clientFactory.CreateClient(), _yandexBaseUrl, yandexApiKey.Value));
 			}
 
 			return geoCoderList;
