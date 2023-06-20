@@ -69,7 +69,7 @@ namespace Fias.Search
 			var limitQuery = limit == null ? "" : $"\nLIMIT {limit}";
 			var query = $@"
 SELECT
-	DISTINCT ON (s.fias_street_guid)
+	DISTINCT ON (s.fias_street_guid, d.id)
 	s.id AS {nameof(StreetDTO.Id)},
 	s.fias_street_guid AS {nameof(StreetDTO.FiasGuid)},
 	s.""name"" AS {nameof(StreetDTO.Name)},
