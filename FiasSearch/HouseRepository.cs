@@ -105,7 +105,7 @@ namespace Fias.Search
 			var citySteadQuery = isStreet ? "FALSE" : $"sch.fias_city_guid = '{parentGuid}'";
 			var streetHouseQuery = isStreet ? $"hsh.fias_street_guid = '{parentGuid}'" : "FALSE";
 			var streetSteadQuery = isStreet ? $"ssh.fias_street_guid = '{parentGuid}'" : "FALSE";
-			var houseQuery = $"'{houseNumber}%'";
+			var houseQuery = $"'%{houseNumber}%'";
 			var corpusQuery = corpusNumber != null ? $"'{corpusNumber.Value}%'" : "''";
 			var buildingQuery = buildingNumber != null ? $"'{buildingNumber.Value}%'" : "''";
 			var query = $@"
