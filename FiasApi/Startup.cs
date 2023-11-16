@@ -1,4 +1,6 @@
-﻿using FluentNHibernate.Cfg;
+using System.IO;
+using System.Linq;
+using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -16,8 +18,14 @@ using NLog.Web;
 using Npgsql;
 using System.Reflection;
 using System.Text;
+using System.Text.Json;
+using System.Threading.Tasks;
+using FiasApi.HealthChecks;
 using FiasApi.MiddleWare;
 using GeoCoder.Factories;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace FiasApi
 {
@@ -69,6 +77,8 @@ namespace FiasApi
 
 			services.AddScoped<ISessionFactory>((sp) => ConfigureFiasConnection());
 			services.AddSingleton<IYandexGeoCoderModelFactory, YandexGeoCoderModelFactory>();
+
+			services.AddHealthChecks().AddCheck<FiasHelthCheck>(nameof(FiasHelthCheck));
 		}
 
 		private ISessionFactory ConfigureFiasConnection()
@@ -126,6 +136,53 @@ namespace FiasApi
 			{
 				endpoints.MapControllers();
 			});
+
+			var options = new HealthCheckOptions
+			{
+				ResponseWriter = WriteResponse,
+				AllowCachingResponses = false
+			};
+
+			app.UseHealthChecks("/health", options);
+		}
+
+		private Task WriteResponse(HttpContext context, HealthReport healthReport)
+		{
+			context.Response.ContentType = "application/json; charset=utf-8";
+
+			var options = new JsonWriterOptions { Indented = true };
+
+			using var memoryStream = new MemoryStream();
+			using(var jsonWriter = new Utf8JsonWriter(memoryStream, options))
+			{
+				jsonWriter.WriteStartObject();
+				jsonWriter.WriteString("status", healthReport.Status.ToString());
+				jsonWriter.WriteString("description", healthReport.Entries.FirstOrDefault().Value.Description);
+
+				foreach(var healthReportEntry in healthReport.Entries)
+				{
+					jsonWriter.WriteStartObject("data");
+
+					foreach(var item in healthReportEntry.Value.Data)
+					{
+						jsonWriter.WritePropertyName(item.Key);
+
+						JsonSerializer.Serialize(jsonWriter, item.Value, item.Value?.GetType());
+					}
+
+					if(healthReportEntry.Value.Exception is { } exception)
+					{
+						jsonWriter.WritePropertyName("exception");
+						jsonWriter.WriteStringValue(exception.ToString());
+					}
+
+					jsonWriter.WriteEndObject();
+				}
+
+				jsonWriter.WriteEndObject();
+			}
+
+			return context.Response.WriteAsync(Encoding.UTF8.GetString(memoryStream.ToArray()));
 		}
 	}
 }
