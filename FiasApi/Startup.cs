@@ -1,4 +1,4 @@
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
@@ -26,6 +26,7 @@ using GeoCoder.Factories;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using System;
 
 namespace FiasApi
 {
@@ -105,9 +106,6 @@ namespace FiasApi
 			fluenConfig.Mappings(m =>
 			{
 				m.FluentMappings.AddFromAssembly(Assembly.GetAssembly(typeof(Fias.Search.DTO.ApartmentDTO)));
-				m.FluentMappings.AddFromAssembly(Assembly.GetAssembly(typeof(Fias.Search.DTO.CityDTO)));
-				m.FluentMappings.AddFromAssembly(Assembly.GetAssembly(typeof(Fias.Search.DTO.HouseDTO)));
-				m.FluentMappings.AddFromAssembly(Assembly.GetAssembly(typeof(Fias.Search.DTO.StreetDTO)));
 			});
 
 			return fluenConfig.BuildSessionFactory();

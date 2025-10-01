@@ -24,8 +24,11 @@
       "publishAllPorts": true,
       "useSSL": true
     },
-    "FiasApi": {
-      "commandName": "Project"
-    }
+		"FiasApi": {
+			"commandName": "Project",
+			"environmentVariables": {
+				"ASPNETCORE_ENVIRONMENT": "Development"
+			}
+		}
   }
 }
